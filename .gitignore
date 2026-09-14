@@ -1,0 +1,21 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## Rider / VS Code
+.idea/
+.vscode/
+.temp/
+
+## Logs
+*.log
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Office (arquivos de lock temporário)
+~$*
