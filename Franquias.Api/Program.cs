@@ -22,6 +22,10 @@ builder.Services.AddScoped<IFranqueadoraRepository, FranqueadoraRepository>();
 builder.Services.AddScoped<IFranqueadoraService, FranqueadoraService>();
 builder.Services.AddScoped<IUnidadeFranqueadaRepository, UnidadeFranqueadaRepository>();
 builder.Services.AddScoped<IUnidadeFranqueadaService, UnidadeFranqueadaService>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<IProdutoServicoRepository, ProdutoServicoRepository>();
+builder.Services.AddScoped<IProdutoServicoService, ProdutoServicoService>();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(options =>

@@ -84,3 +84,81 @@ Authorization: Bearer {{login.response.body.token}}
 # 8) Ativar unidade
 PATCH {{Franquias.Api_HostAddress}}/api/unidades/1/ativar
 Authorization: Bearer {{login.response.body.token}}
+
+###
+# 9) Criar categoria
+# @name criarCategoria
+POST {{Franquias.Api_HostAddress}}/api/categorias
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "nome": "Bebidas",
+  "descricao": "Bebidas em geral"
+}
+
+###
+# 10) Listar categorias
+GET {{Franquias.Api_HostAddress}}/api/categorias?ativo=true
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 11) Atualizar categoria (troque o id pelo retornado no passo 9)
+PUT {{Franquias.Api_HostAddress}}/api/categorias/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "nome": "Bebidas",
+  "descricao": "Bebidas quentes e frias",
+  "ativo": true
+}
+
+###
+# 12) Criar produto/servico (troque categoriaId pelo id retornado no passo 9)
+# @name criarProduto
+POST {{Franquias.Api_HostAddress}}/api/produtos
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "categoriaId": 1,
+  "nome": "Refrigerante Lata 350ml",
+  "descricao": "Refrigerante lata 350ml sabor cola",
+  "tipo": 1,
+  "precoBase": 6.5
+}
+
+###
+# 13) Listar produtos com filtro + paginação
+GET {{Franquias.Api_HostAddress}}/api/produtos?nome=Refrigerante&categoriaId=1&ativo=true&pagina=1&tamanhoPagina=10&ordenarPor=nome
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 14) Obter produto por id (troque pelo id retornado no passo 12)
+GET {{Franquias.Api_HostAddress}}/api/produtos/1
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 15) Atualizar produto
+PUT {{Franquias.Api_HostAddress}}/api/produtos/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "categoriaId": 1,
+  "nome": "Refrigerante Lata 350ml",
+  "descricao": "Refrigerante lata 350ml sabor cola",
+  "tipo": 1,
+  "precoBase": 7.0
+}
+
+###
+# 16) Inativar produto
+PATCH {{Franquias.Api_HostAddress}}/api/produtos/1/inativar
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 17) Ativar produto
+PATCH {{Franquias.Api_HostAddress}}/api/produtos/1/ativar
+Authorization: Bearer {{login.response.body.token}}
