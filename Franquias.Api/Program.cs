@@ -18,6 +18,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IFranqueadoraRepository, FranqueadoraRepository>();
+builder.Services.AddScoped<IFranqueadoraService, FranqueadoraService>();
+builder.Services.AddScoped<IUnidadeFranqueadaRepository, UnidadeFranqueadaRepository>();
+builder.Services.AddScoped<IUnidadeFranqueadaService, UnidadeFranqueadaService>();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(options =>
