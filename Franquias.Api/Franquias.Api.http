@@ -287,3 +287,76 @@ Authorization: Bearer {{login.response.body.token}}
 # 32) Listar itens abaixo do estoque minimo (deve retornar o item apos a saida do passo 30, saldo=5 < minimo=10)
 GET {{Franquias.Api_HostAddress}}/api/estoques/1/criticos
 Authorization: Bearer {{login.response.body.token}}
+
+###
+# 33) Registrar entrada de estoque para viabilizar a venda de teste abaixo
+POST {{Franquias.Api_HostAddress}}/api/estoques/movimentacoes
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "produtoServicoId": 1,
+  "tipo": 1,
+  "quantidade": 20,
+  "observacao": "Entrada para teste de venda"
+}
+
+###
+# 34) Registrar venda (o total e calculado no backend a partir dos itens; da baixa automatica no estoque)
+# @name criarVenda
+POST {{Franquias.Api_HostAddress}}/api/vendas
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "itens": [
+    {
+      "produtoServicoId": 1,
+      "quantidade": 3
+    }
+  ]
+}
+
+###
+# 35) Registrar venda com item sem estoque suficiente (deve retornar 400, sem baixa parcial)
+POST {{Franquias.Api_HostAddress}}/api/vendas
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "itens": [
+    {
+      "produtoServicoId": 1,
+      "quantidade": 100000
+    }
+  ]
+}
+
+###
+# 36) Registrar venda sem itens (deve retornar 400)
+POST {{Franquias.Api_HostAddress}}/api/vendas
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "itens": []
+}
+
+###
+# 37) Obter venda por id (troque pelo id retornado no passo 34)
+GET {{Franquias.Api_HostAddress}}/api/vendas/1
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 38) Listar vendas por unidade e intervalo de datas
+GET {{Franquias.Api_HostAddress}}/api/vendas?unidadeId=1&dataInicio=2026-01-01&dataFim=2026-12-31&pagina=1&tamanhoPagina=10
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 39) Conferir saldo de estoque apos a venda (deve refletir a baixa do passo 34)
+GET {{Franquias.Api_HostAddress}}/api/estoques/1/1
+Authorization: Bearer {{login.response.body.token}}
