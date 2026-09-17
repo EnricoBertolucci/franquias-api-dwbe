@@ -14,6 +14,9 @@ public class MovimentacaoEstoque
     public string Observacao { get; set; } = string.Empty;
     public DateTime DataMovimentacao { get; set; } = DateTime.UtcNow;
 
+    public int UsuarioId { get; set; }
+    public Usuario Usuario { get; set; } = null!;
+
     public int? VendaId { get; set; }
     public Venda? Venda { get; set; }
 }

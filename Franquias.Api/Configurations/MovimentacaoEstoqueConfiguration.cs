@@ -18,6 +18,11 @@ public class MovimentacaoEstoqueConfiguration : IEntityTypeConfiguration<Movimen
             .HasForeignKey(m => m.EstoqueId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(m => m.Usuario)
+            .WithMany()
+            .HasForeignKey(m => m.UsuarioId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasOne(m => m.Venda)
             .WithMany()
             .HasForeignKey(m => m.VendaId)
