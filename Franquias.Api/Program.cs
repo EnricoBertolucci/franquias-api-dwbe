@@ -32,6 +32,8 @@ builder.Services.AddScoped<IEstoqueRepository, EstoqueRepository>();
 builder.Services.AddScoped<IEstoqueService, EstoqueService>();
 builder.Services.AddScoped<IVendaRepository, VendaRepository>();
 builder.Services.AddScoped<IVendaService, VendaService>();
+builder.Services.AddScoped<IRoyaltyRepository, RoyaltyRepository>();
+builder.Services.AddScoped<IRoyaltyService, RoyaltyService>();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(options =>

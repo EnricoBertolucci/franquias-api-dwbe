@@ -360,3 +360,56 @@ Authorization: Bearer {{login.response.body.token}}
 # 39) Conferir saldo de estoque apos a venda (deve refletir a baixa do passo 34)
 GET {{Franquias.Api_HostAddress}}/api/estoques/1/1
 Authorization: Bearer {{login.response.body.token}}
+
+###
+# 40) Calcular royalty do periodo (soma o faturamento das vendas confirmadas da unidade no mes/ano informado)
+# @name calcularRoyalty
+POST {{Franquias.Api_HostAddress}}/api/royalties/calcular
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "anoReferencia": 2026,
+  "mesReferencia": 9
+}
+
+###
+# 41) Recalcular o mesmo periodo (deve atualizar o registro existente, nao duplicar)
+POST {{Franquias.Api_HostAddress}}/api/royalties/calcular
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "anoReferencia": 2026,
+  "mesReferencia": 9
+}
+
+###
+# 42) Listar royalties por unidade/periodo/status
+GET {{Franquias.Api_HostAddress}}/api/royalties?unidadeId=1&anoReferencia=2026&mesReferencia=9
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 43) Atualizar status de pagamento do royalty (troque pelo id retornado no passo 40; so Administrador)
+PUT {{Franquias.Api_HostAddress}}/api/royalties/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "statusPagamento": 2,
+  "dataPagamento": "2026-10-05T00:00:00Z"
+}
+
+###
+# 44) Tentar recalcular um royalty ja marcado como pago (deve retornar 400)
+POST {{Franquias.Api_HostAddress}}/api/royalties/calcular
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "anoReferencia": 2026,
+  "mesReferencia": 9
+}
