@@ -162,3 +162,60 @@ Authorization: Bearer {{login.response.body.token}}
 # 17) Ativar produto
 PATCH {{Franquias.Api_HostAddress}}/api/produtos/1/ativar
 Authorization: Bearer {{login.response.body.token}}
+
+###
+# 18) Criar fornecedor
+# @name criarFornecedor
+POST {{Franquias.Api_HostAddress}}/api/fornecedores
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "razaoSocial": "Distribuidora Exemplo Ltda",
+  "cnpj": "33.444.555/0001-66",
+  "email": "contato@distribuidora.com",
+  "telefone": "1133335555"
+}
+
+###
+# 19) Listar fornecedores com filtro + paginação
+GET {{Franquias.Api_HostAddress}}/api/fornecedores?nome=Distribuidora&pagina=1&tamanhoPagina=10&ordenarPor=razaosocial
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 20) Obter fornecedor por id (troque pelo id retornado no passo 18)
+GET {{Franquias.Api_HostAddress}}/api/fornecedores/1
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 21) Atualizar fornecedor
+PUT {{Franquias.Api_HostAddress}}/api/fornecedores/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "razaoSocial": "Distribuidora Exemplo Ltda",
+  "cnpj": "33.444.555/0001-66",
+  "email": "financeiro@distribuidora.com",
+  "telefone": "1133336666"
+}
+
+###
+# 22) Associar produto ao fornecedor (troque pelo id de fornecedor e de produto já existentes)
+POST {{Franquias.Api_HostAddress}}/api/fornecedores/1/produtos/1
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 23) Desassociar produto do fornecedor
+DELETE {{Franquias.Api_HostAddress}}/api/fornecedores/1/produtos/1
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 24) Inativar fornecedor
+PATCH {{Franquias.Api_HostAddress}}/api/fornecedores/1/inativar
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 25) Ativar fornecedor
+PATCH {{Franquias.Api_HostAddress}}/api/fornecedores/1/ativar
+Authorization: Bearer {{login.response.body.token}}
