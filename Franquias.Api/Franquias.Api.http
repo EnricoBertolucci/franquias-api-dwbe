@@ -219,3 +219,71 @@ Authorization: Bearer {{login.response.body.token}}
 # 25) Ativar fornecedor
 PATCH {{Franquias.Api_HostAddress}}/api/fornecedores/1/ativar
 Authorization: Bearer {{login.response.body.token}}
+
+###
+# 26) Registrar movimentacao de entrada de estoque (troque unidadeFranqueadaId/produtoServicoId pelos ids ja existentes)
+# @name entradaEstoque
+POST {{Franquias.Api_HostAddress}}/api/estoques/movimentacoes
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "produtoServicoId": 1,
+  "tipo": 1,
+  "quantidade": 50,
+  "observacao": "Entrada inicial de estoque"
+}
+
+###
+# 27) Definir estoque minimo do item (para habilitar a consulta de criticos)
+PUT {{Franquias.Api_HostAddress}}/api/estoques/1/1/minimo
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "quantidadeMinima": 10
+}
+
+###
+# 28) Listar saldo de estoque por unidade
+GET {{Franquias.Api_HostAddress}}/api/estoques?unidadeId=1
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 29) Obter saldo de um item especifico
+GET {{Franquias.Api_HostAddress}}/api/estoques/1/1
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 30) Registrar movimentacao de saida de estoque (deve funcionar, pois ha saldo suficiente)
+POST {{Franquias.Api_HostAddress}}/api/estoques/movimentacoes
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "produtoServicoId": 1,
+  "tipo": 2,
+  "quantidade": 45,
+  "observacao": "Venda balcao"
+}
+
+###
+# 31) Registrar movimentacao de saida maior que o saldo disponivel (deve retornar 400)
+POST {{Franquias.Api_HostAddress}}/api/estoques/movimentacoes
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "unidadeFranqueadaId": 1,
+  "produtoServicoId": 1,
+  "tipo": 2,
+  "quantidade": 1000,
+  "observacao": "Saida maior que o saldo (deve falhar)"
+}
+
+###
+# 32) Listar itens abaixo do estoque minimo (deve retornar o item apos a saida do passo 30, saldo=5 < minimo=10)
+GET {{Franquias.Api_HostAddress}}/api/estoques/1/criticos
+Authorization: Bearer {{login.response.body.token}}

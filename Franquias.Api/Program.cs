@@ -28,6 +28,8 @@ builder.Services.AddScoped<IProdutoServicoRepository, ProdutoServicoRepository>(
 builder.Services.AddScoped<IProdutoServicoService, ProdutoServicoService>();
 builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddScoped<IFornecedorService, FornecedorService>();
+builder.Services.AddScoped<IEstoqueRepository, EstoqueRepository>();
+builder.Services.AddScoped<IEstoqueService, EstoqueService>();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(options =>
