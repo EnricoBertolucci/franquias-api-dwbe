@@ -16,6 +16,10 @@ Content-Type: application/json
 }
 
 ###
+# 1b) Tentar chamar um endpoint protegido sem token (deve retornar 401)
+GET {{Franquias.Api_HostAddress}}/api/unidades
+
+###
 # 2) Criar franqueadora (usa o token retornado pelo login acima)
 # @name criarFranqueadora
 POST {{Franquias.Api_HostAddress}}/api/franqueadora
@@ -83,6 +87,42 @@ Authorization: Bearer {{login.response.body.token}}
 ###
 # 8) Ativar unidade
 PATCH {{Franquias.Api_HostAddress}}/api/unidades/1/ativar
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 8b) Cadastrar um usuario Gestor vinculado a unidade (para testar autorizacao por perfil/unidade adiante)
+# @name criarUsuarioGestor
+POST {{Franquias.Api_HostAddress}}/api/usuarios
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "nome": "Gestor Unidade Centro",
+  "email": "gestor.centro@teste.com",
+  "senha": "Gestor@123",
+  "perfil": 2,
+  "unidadeFranqueadaId": 1
+}
+
+###
+# 8c) Login como Gestor (para os testes de escopo por unidade abaixo)
+# @name loginGestor
+POST {{Franquias.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "gestor.centro@teste.com",
+  "senha": "Gestor@123"
+}
+
+###
+# 8d) Gestor tentando listar unidades (endpoint restrito a Administrador, deve retornar 403)
+GET {{Franquias.Api_HostAddress}}/api/unidades
+Authorization: Bearer {{loginGestor.response.body.token}}
+
+###
+# 8e) Listar usuarios cadastrados (Administrador)
+GET {{Franquias.Api_HostAddress}}/api/usuarios
 Authorization: Bearer {{login.response.body.token}}
 
 ###
