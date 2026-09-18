@@ -473,3 +473,48 @@ Authorization: Bearer {{login.response.body.token}}
 {
   "prioridade": 1
 }
+
+###
+# 52) Faturamento por unidade e periodo
+GET {{Franquias.Api_HostAddress}}/api/relatorios/faturamento?unidadeId=1&inicio=2026-09-01&fim=2026-09-30
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 53) Faturamento agregado de todas as unidades (sem unidadeId; so Administrador)
+GET {{Franquias.Api_HostAddress}}/api/relatorios/faturamento?inicio=2026-09-01&fim=2026-09-30
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 54) Ranking de unidades por faturamento (so Administrador)
+GET {{Franquias.Api_HostAddress}}/api/relatorios/ranking-unidades?inicio=2026-09-01&fim=2026-09-30
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 55) Total de royalties gerados no periodo (so Administrador)
+GET {{Franquias.Api_HostAddress}}/api/relatorios/royalties?inicio=2026-09-01&fim=2026-09-30
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 56) Produtos/servicos mais vendidos no periodo (so Administrador)
+GET {{Franquias.Api_HostAddress}}/api/relatorios/produtos-mais-vendidos?inicio=2026-09-01&fim=2026-09-30
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 57) Estoque critico de uma unidade
+GET {{Franquias.Api_HostAddress}}/api/relatorios/estoque-critico?unidadeId=1
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 58) Estoque critico em todas as unidades (sem unidadeId; so Administrador)
+GET {{Franquias.Api_HostAddress}}/api/relatorios/estoque-critico
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 59) Chamados por status (filtrado por unidade)
+GET {{Franquias.Api_HostAddress}}/api/relatorios/chamados-por-status?unidadeId=1
+Authorization: Bearer {{login.response.body.token}}
+
+###
+# 60) Chamados por status e prioridade em todas as unidades (sem unidadeId; so Administrador)
+GET {{Franquias.Api_HostAddress}}/api/relatorios/chamados-por-status?prioridade=3
+Authorization: Bearer {{login.response.body.token}}
