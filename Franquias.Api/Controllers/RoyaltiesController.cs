@@ -6,9 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Franquias.Api.Controllers;
 
+/// <summary>
+/// Cálculo e acompanhamento de royalties por unidade e período.
+/// </summary>
 [ApiController]
 [Route("api/royalties")]
 [Authorize]
+[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 public class RoyaltiesController : ControllerBase
 {
     private readonly IRoyaltyService _royaltyService;
@@ -18,8 +22,13 @@ public class RoyaltiesController : ControllerBase
         _royaltyService = royaltyService;
     }
 
+    /// <summary>Calcula (ou recalcula) o royalty de uma unidade para um período, com base no faturamento das vendas confirmadas. Rejeitado com 400 se o pagamento já tiver sido confirmado. Requer perfil Administrador ou Gestor.</summary>
     [HttpPost("calcular")]
     [Authorize(Roles = "Administrador,Gestor")]
+    [ProducesResponseType(typeof(RoyaltyRespostaDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<RoyaltyRespostaDto>> Calcular(RoyaltyCalculoRequestDto dto)
     {
         if (!PodeAcessarUnidade(dto.UnidadeFranqueadaId))
@@ -31,7 +40,18 @@ public class RoyaltiesController : ControllerBase
         return Ok(royalty);
     }
 
+    /// <summary>Lista royalties por unidade, ano, mês e status de pagamento, com paginação e ordenação. Sem <paramref name="unidadeId"/>, apenas Administrador pode consultar.</summary>
+    /// <param name="unidadeId">Filtro pela unidade. Gestor/Operador só podem consultar a própria unidade.</param>
+    /// <param name="anoReferencia">Ano de referência do royalty.</param>
+    /// <param name="mesReferencia">Mês de referência do royalty.</param>
+    /// <param name="statusPagamento">Filtro por status de pagamento.</param>
+    /// <param name="pagina">Número da página, iniciando em 1.</param>
+    /// <param name="tamanhoPagina">Quantidade de registros por página.</param>
+    /// <param name="ordenarPor">Campo de ordenação (ex.: periodo, valorCalculado).</param>
+    /// <param name="decrescente">Define se a ordenação é decrescente.</param>
     [HttpGet]
+    [ProducesResponseType(typeof(ResultadoPaginadoDto<RoyaltyRespostaDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<ResultadoPaginadoDto<RoyaltyRespostaDto>>> Listar(
         [FromQuery] int? unidadeId,
         [FromQuery] int? anoReferencia,
@@ -58,8 +78,13 @@ public class RoyaltiesController : ControllerBase
         return Ok(resultado);
     }
 
+    /// <summary>Atualiza o status de pagamento de um royalty. Requer perfil Administrador.</summary>
     [HttpPut("{id:int}")]
     [Authorize(Roles = "Administrador")]
+    [ProducesResponseType(typeof(RoyaltyRespostaDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<RoyaltyRespostaDto>> AtualizarStatus(int id, RoyaltyAtualizacaoStatusDto dto)
     {
         var royalty = await _royaltyService.AtualizarStatusAsync(id, dto);
