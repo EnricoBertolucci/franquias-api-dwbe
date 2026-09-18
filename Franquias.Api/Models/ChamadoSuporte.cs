@@ -18,5 +18,6 @@ public class ChamadoSuporte
     public StatusChamado Status { get; set; } = StatusChamado.Aberto;
 
     public DateTime DataAbertura { get; set; } = DateTime.UtcNow;
+    public DateTime? DataAtualizacao { get; set; }
     public DateTime? DataEncerramento { get; set; }
 }
