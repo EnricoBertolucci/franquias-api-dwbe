@@ -1,13 +1,13 @@
-@Franquias.Api_HostAddress = http://localhost:5192
+@HostAddress = http://localhost:5192
 
 ### Health check
-GET {{Franquias.Api_HostAddress}}/api/health
+GET {{HostAddress}}/api/health
 Accept: application/json
 
 ###
 # 1) Login (troque pelo e-mail/senha de um usuário Administrador já existente no banco)
 # @name login
-POST {{Franquias.Api_HostAddress}}/api/auth/login
+POST {{HostAddress}}/api/auth/login
 Content-Type: application/json
 
 {
@@ -17,12 +17,12 @@ Content-Type: application/json
 
 ###
 # 1b) Tentar chamar um endpoint protegido sem token (deve retornar 401)
-GET {{Franquias.Api_HostAddress}}/api/unidades
+GET {{HostAddress}}/api/unidades
 
 ###
 # 2) Criar franqueadora (usa o token retornado pelo login acima)
 # @name criarFranqueadora
-POST {{Franquias.Api_HostAddress}}/api/franqueadora
+POST {{HostAddress}}/api/franqueadora
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -36,13 +36,13 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 3) Listar franqueadoras
-GET {{Franquias.Api_HostAddress}}/api/franqueadora
+GET {{HostAddress}}/api/franqueadora
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 4) Criar unidade franqueada (troque franqueadoraId pelo id retornado no passo 2)
 # @name criarUnidade
-POST {{Franquias.Api_HostAddress}}/api/unidades
+POST {{HostAddress}}/api/unidades
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -71,28 +71,28 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 5) Listar unidades com filtro + paginação
-GET {{Franquias.Api_HostAddress}}/api/unidades?cidade=Paulo&pagina=1&tamanhoPagina=10&ordenarPor=nome
+GET {{HostAddress}}/api/unidades?cidade=Paulo&pagina=1&tamanhoPagina=10&ordenarPor=nome
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 6) Obter unidade por id (troque pelo id retornado no passo 4)
-GET {{Franquias.Api_HostAddress}}/api/unidades/1
+GET {{HostAddress}}/api/unidades/1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 7) Inativar unidade
-PATCH {{Franquias.Api_HostAddress}}/api/unidades/1/inativar
+PATCH {{HostAddress}}/api/unidades/1/inativar
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 8) Ativar unidade
-PATCH {{Franquias.Api_HostAddress}}/api/unidades/1/ativar
+PATCH {{HostAddress}}/api/unidades/1/ativar
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 8b) Cadastrar um usuario Gestor vinculado a unidade (para testar autorizacao por perfil/unidade adiante)
 # @name criarUsuarioGestor
-POST {{Franquias.Api_HostAddress}}/api/usuarios
+POST {{HostAddress}}/api/usuarios
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -107,7 +107,7 @@ Authorization: Bearer {{login.response.body.token}}
 ###
 # 8c) Login como Gestor (para os testes de escopo por unidade abaixo)
 # @name loginGestor
-POST {{Franquias.Api_HostAddress}}/api/auth/login
+POST {{HostAddress}}/api/auth/login
 Content-Type: application/json
 
 {
@@ -117,18 +117,18 @@ Content-Type: application/json
 
 ###
 # 8d) Gestor tentando listar unidades (endpoint restrito a Administrador, deve retornar 403)
-GET {{Franquias.Api_HostAddress}}/api/unidades
+GET {{HostAddress}}/api/unidades
 Authorization: Bearer {{loginGestor.response.body.token}}
 
 ###
 # 8e) Listar usuarios cadastrados (Administrador)
-GET {{Franquias.Api_HostAddress}}/api/usuarios
+GET {{HostAddress}}/api/usuarios
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 9) Criar categoria
 # @name criarCategoria
-POST {{Franquias.Api_HostAddress}}/api/categorias
+POST {{HostAddress}}/api/categorias
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -139,12 +139,12 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 10) Listar categorias
-GET {{Franquias.Api_HostAddress}}/api/categorias?ativo=true
+GET {{HostAddress}}/api/categorias?ativo=true
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 11) Atualizar categoria (troque o id pelo retornado no passo 9)
-PUT {{Franquias.Api_HostAddress}}/api/categorias/1
+PUT {{HostAddress}}/api/categorias/1
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -157,7 +157,7 @@ Authorization: Bearer {{login.response.body.token}}
 ###
 # 12) Criar produto/servico (troque categoriaId pelo id retornado no passo 9)
 # @name criarProduto
-POST {{Franquias.Api_HostAddress}}/api/produtos
+POST {{HostAddress}}/api/produtos
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -171,17 +171,17 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 13) Listar produtos com filtro + paginação
-GET {{Franquias.Api_HostAddress}}/api/produtos?nome=Refrigerante&categoriaId=1&ativo=true&pagina=1&tamanhoPagina=10&ordenarPor=nome
+GET {{HostAddress}}/api/produtos?nome=Refrigerante&categoriaId=1&ativo=true&pagina=1&tamanhoPagina=10&ordenarPor=nome
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 14) Obter produto por id (troque pelo id retornado no passo 12)
-GET {{Franquias.Api_HostAddress}}/api/produtos/1
+GET {{HostAddress}}/api/produtos/1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 15) Atualizar produto
-PUT {{Franquias.Api_HostAddress}}/api/produtos/1
+PUT {{HostAddress}}/api/produtos/1
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -195,18 +195,18 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 16) Inativar produto
-PATCH {{Franquias.Api_HostAddress}}/api/produtos/1/inativar
+PATCH {{HostAddress}}/api/produtos/1/inativar
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 17) Ativar produto
-PATCH {{Franquias.Api_HostAddress}}/api/produtos/1/ativar
+PATCH {{HostAddress}}/api/produtos/1/ativar
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 18) Criar fornecedor
 # @name criarFornecedor
-POST {{Franquias.Api_HostAddress}}/api/fornecedores
+POST {{HostAddress}}/api/fornecedores
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -219,17 +219,17 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 19) Listar fornecedores com filtro + paginação
-GET {{Franquias.Api_HostAddress}}/api/fornecedores?nome=Distribuidora&pagina=1&tamanhoPagina=10&ordenarPor=razaosocial
+GET {{HostAddress}}/api/fornecedores?nome=Distribuidora&pagina=1&tamanhoPagina=10&ordenarPor=razaosocial
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 20) Obter fornecedor por id (troque pelo id retornado no passo 18)
-GET {{Franquias.Api_HostAddress}}/api/fornecedores/1
+GET {{HostAddress}}/api/fornecedores/1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 21) Atualizar fornecedor
-PUT {{Franquias.Api_HostAddress}}/api/fornecedores/1
+PUT {{HostAddress}}/api/fornecedores/1
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -242,28 +242,28 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 22) Associar produto ao fornecedor (troque pelo id de fornecedor e de produto já existentes)
-POST {{Franquias.Api_HostAddress}}/api/fornecedores/1/produtos/1
+POST {{HostAddress}}/api/fornecedores/1/produtos/1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 23) Desassociar produto do fornecedor
-DELETE {{Franquias.Api_HostAddress}}/api/fornecedores/1/produtos/1
+DELETE {{HostAddress}}/api/fornecedores/1/produtos/1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 24) Inativar fornecedor
-PATCH {{Franquias.Api_HostAddress}}/api/fornecedores/1/inativar
+PATCH {{HostAddress}}/api/fornecedores/1/inativar
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 25) Ativar fornecedor
-PATCH {{Franquias.Api_HostAddress}}/api/fornecedores/1/ativar
+PATCH {{HostAddress}}/api/fornecedores/1/ativar
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 26) Registrar movimentacao de entrada de estoque (troque unidadeFranqueadaId/produtoServicoId pelos ids ja existentes)
 # @name entradaEstoque
-POST {{Franquias.Api_HostAddress}}/api/estoques/movimentacoes
+POST {{HostAddress}}/api/estoques/movimentacoes
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -277,7 +277,7 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 27) Definir estoque minimo do item (para habilitar a consulta de criticos)
-PUT {{Franquias.Api_HostAddress}}/api/estoques/1/1/minimo
+PUT {{HostAddress}}/api/estoques/1/1/minimo
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -287,17 +287,17 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 28) Listar saldo de estoque por unidade
-GET {{Franquias.Api_HostAddress}}/api/estoques?unidadeId=1
+GET {{HostAddress}}/api/estoques?unidadeId=1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 29) Obter saldo de um item especifico
-GET {{Franquias.Api_HostAddress}}/api/estoques/1/1
+GET {{HostAddress}}/api/estoques/1/1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 30) Registrar movimentacao de saida de estoque (deve funcionar, pois ha saldo suficiente)
-POST {{Franquias.Api_HostAddress}}/api/estoques/movimentacoes
+POST {{HostAddress}}/api/estoques/movimentacoes
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -311,7 +311,7 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 31) Registrar movimentacao de saida maior que o saldo disponivel (deve retornar 400)
-POST {{Franquias.Api_HostAddress}}/api/estoques/movimentacoes
+POST {{HostAddress}}/api/estoques/movimentacoes
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -325,12 +325,12 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 32) Listar itens abaixo do estoque minimo (deve retornar o item apos a saida do passo 30, saldo=5 < minimo=10)
-GET {{Franquias.Api_HostAddress}}/api/estoques/1/criticos
+GET {{HostAddress}}/api/estoques/1/criticos
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 33) Registrar entrada de estoque para viabilizar a venda de teste abaixo
-POST {{Franquias.Api_HostAddress}}/api/estoques/movimentacoes
+POST {{HostAddress}}/api/estoques/movimentacoes
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -345,7 +345,7 @@ Authorization: Bearer {{login.response.body.token}}
 ###
 # 34) Registrar venda (o total e calculado no backend a partir dos itens; da baixa automatica no estoque)
 # @name criarVenda
-POST {{Franquias.Api_HostAddress}}/api/vendas
+POST {{HostAddress}}/api/vendas
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -361,7 +361,7 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 35) Registrar venda com item sem estoque suficiente (deve retornar 400, sem baixa parcial)
-POST {{Franquias.Api_HostAddress}}/api/vendas
+POST {{HostAddress}}/api/vendas
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -377,7 +377,7 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 36) Registrar venda sem itens (deve retornar 400)
-POST {{Franquias.Api_HostAddress}}/api/vendas
+POST {{HostAddress}}/api/vendas
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -388,23 +388,23 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 37) Obter venda por id (troque pelo id retornado no passo 34)
-GET {{Franquias.Api_HostAddress}}/api/vendas/1
+GET {{HostAddress}}/api/vendas/1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 38) Listar vendas por unidade e intervalo de datas
-GET {{Franquias.Api_HostAddress}}/api/vendas?unidadeId=1&dataInicio=2026-01-01&dataFim=2026-12-31&pagina=1&tamanhoPagina=10
+GET {{HostAddress}}/api/vendas?unidadeId=1&dataInicio=2026-01-01&dataFim=2026-12-31&pagina=1&tamanhoPagina=10
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 39) Conferir saldo de estoque apos a venda (deve refletir a baixa do passo 34)
-GET {{Franquias.Api_HostAddress}}/api/estoques/1/1
+GET {{HostAddress}}/api/estoques/1/1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 40) Calcular royalty do periodo (soma o faturamento das vendas confirmadas da unidade no mes/ano informado)
 # @name calcularRoyalty
-POST {{Franquias.Api_HostAddress}}/api/royalties/calcular
+POST {{HostAddress}}/api/royalties/calcular
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -416,7 +416,7 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 41) Recalcular o mesmo periodo (deve atualizar o registro existente, nao duplicar)
-POST {{Franquias.Api_HostAddress}}/api/royalties/calcular
+POST {{HostAddress}}/api/royalties/calcular
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -428,12 +428,12 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 42) Listar royalties por unidade/periodo/status
-GET {{Franquias.Api_HostAddress}}/api/royalties?unidadeId=1&anoReferencia=2026&mesReferencia=9
+GET {{HostAddress}}/api/royalties?unidadeId=1&anoReferencia=2026&mesReferencia=9
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 43) Atualizar status de pagamento do royalty (troque pelo id retornado no passo 40; so Administrador)
-PUT {{Franquias.Api_HostAddress}}/api/royalties/1
+PUT {{HostAddress}}/api/royalties/1
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -444,7 +444,7 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 44) Tentar recalcular um royalty ja marcado como pago (deve retornar 400)
-POST {{Franquias.Api_HostAddress}}/api/royalties/calcular
+POST {{HostAddress}}/api/royalties/calcular
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -457,7 +457,7 @@ Authorization: Bearer {{login.response.body.token}}
 ###
 # 45) Abrir chamado de suporte para a unidade
 # @name criarChamado
-POST {{Franquias.Api_HostAddress}}/api/chamados
+POST {{HostAddress}}/api/chamados
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -470,17 +470,17 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 46) Listar chamados por unidade/status/prioridade
-GET {{Franquias.Api_HostAddress}}/api/chamados?unidadeId=1&status=1&pagina=1&tamanhoPagina=10
+GET {{HostAddress}}/api/chamados?unidadeId=1&status=1&pagina=1&tamanhoPagina=10
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 47) Consultar chamado por id (troque pelo id retornado no passo 45)
-GET {{Franquias.Api_HostAddress}}/api/chamados/1
+GET {{HostAddress}}/api/chamados/1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 48) Atualizar status/prioridade/descricao do chamado (so Administrador; nao aceita status Encerrado aqui)
-PUT {{Franquias.Api_HostAddress}}/api/chamados/1
+PUT {{HostAddress}}/api/chamados/1
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -491,7 +491,7 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 49) Tentar encerrar via PUT (deve retornar 400, use o endpoint de encerramento)
-PUT {{Franquias.Api_HostAddress}}/api/chamados/1
+PUT {{HostAddress}}/api/chamados/1
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -501,12 +501,12 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 50) Encerrar chamado (so Administrador; registra data de encerramento sem apagar historico)
-PATCH {{Franquias.Api_HostAddress}}/api/chamados/1/encerrar
+PATCH {{HostAddress}}/api/chamados/1/encerrar
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 51) Tentar atualizar um chamado ja encerrado (deve retornar 400)
-PUT {{Franquias.Api_HostAddress}}/api/chamados/1
+PUT {{HostAddress}}/api/chamados/1
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -516,45 +516,45 @@ Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 52) Faturamento por unidade e periodo
-GET {{Franquias.Api_HostAddress}}/api/relatorios/faturamento?unidadeId=1&inicio=2026-09-01&fim=2026-09-30
+GET {{HostAddress}}/api/relatorios/faturamento?unidadeId=1&inicio=2026-09-01&fim=2026-09-30
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 53) Faturamento agregado de todas as unidades (sem unidadeId; so Administrador)
-GET {{Franquias.Api_HostAddress}}/api/relatorios/faturamento?inicio=2026-09-01&fim=2026-09-30
+GET {{HostAddress}}/api/relatorios/faturamento?inicio=2026-09-01&fim=2026-09-30
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 54) Ranking de unidades por faturamento (so Administrador)
-GET {{Franquias.Api_HostAddress}}/api/relatorios/ranking-unidades?inicio=2026-09-01&fim=2026-09-30
+GET {{HostAddress}}/api/relatorios/ranking-unidades?inicio=2026-09-01&fim=2026-09-30
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 55) Total de royalties gerados no periodo (so Administrador)
-GET {{Franquias.Api_HostAddress}}/api/relatorios/royalties?inicio=2026-09-01&fim=2026-09-30
+GET {{HostAddress}}/api/relatorios/royalties?inicio=2026-09-01&fim=2026-09-30
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 56) Produtos/servicos mais vendidos no periodo (so Administrador)
-GET {{Franquias.Api_HostAddress}}/api/relatorios/produtos-mais-vendidos?inicio=2026-09-01&fim=2026-09-30
+GET {{HostAddress}}/api/relatorios/produtos-mais-vendidos?inicio=2026-09-01&fim=2026-09-30
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 57) Estoque critico de uma unidade
-GET {{Franquias.Api_HostAddress}}/api/relatorios/estoque-critico?unidadeId=1
+GET {{HostAddress}}/api/relatorios/estoque-critico?unidadeId=1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 58) Estoque critico em todas as unidades (sem unidadeId; so Administrador)
-GET {{Franquias.Api_HostAddress}}/api/relatorios/estoque-critico
+GET {{HostAddress}}/api/relatorios/estoque-critico
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 59) Chamados por status (filtrado por unidade)
-GET {{Franquias.Api_HostAddress}}/api/relatorios/chamados-por-status?unidadeId=1
+GET {{HostAddress}}/api/relatorios/chamados-por-status?unidadeId=1
 Authorization: Bearer {{login.response.body.token}}
 
 ###
 # 60) Chamados por status e prioridade em todas as unidades (sem unidadeId; so Administrador)
-GET {{Franquias.Api_HostAddress}}/api/relatorios/chamados-por-status?prioridade=3
+GET {{HostAddress}}/api/relatorios/chamados-por-status?prioridade=3
 Authorization: Bearer {{login.response.body.token}}
